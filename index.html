@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<HTML>
+    <head>
+        <link rel = "stylesheet" href = "style.css">
+        
+        <script type="module" src="src/HackTimer/HackTimer.min.js"></script>
+        <script type="module" src = "src/main.js"> </script>
+
+        <!--Icons-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <!--favicon-->
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+        <Title>Yet Another Idle RPG</Title>
+    </head>
+
+    <body onload = "prepareGame()">
+
+        <!-- tooltip for active character effects-->
+        <div id = "effects_tooltip"> 
+            No active effects            
+        </div>
+
+
+        <div id = "main_content">
+            
+
+            <div id = "global_content"> <!-- stuff that needs to be available in both area page and character page-->
+                <!-- basic character info (name, title, hp)-->
+                <div id = "basic_character_info_div" class = "box_div">
+                    <div id = "character_name_div"> 
+                        <input type = "text" id = "character_name_field"> 
+                    </div>
+
+                    <div id = "character_xp_div">
+                        <div id ="character_xp_bar_max">
+                            <div id = "character_xp_bar_current">
+                                
+                            </div>
+                        </div>
+                        <div id = "character_xp_value">
+                        </div>
+                    </div>
+                    
+                    <div id = "character_stamina_div">
+                        <div id ="character_stamina_bar_max">
+                            <div id = "character_stamina_bar_current">
+                            </div>
+                        </div>
+                        <div id = "character_stamina_value">
+                            
+                        </div>
+                    </div>
+                    <div id = "character_mana_div">
+                        <div id ="character_mana_bar_max">
+                            <div id = "character_mana_bar_current">
+                            </div>
+                        </div>
+                        <div id = "character_mana_value">
+                            0/0 mana
+                        </div>
+                    </div>
+
+                    <div id = "character_health_div"> 
+                        <div id = "character_healthbar_max"> 
+                            <div id = "character_healthbar_current">
+                            </div>
+                        </div>
+                        <div id = "character_health_value">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- inventory list -->
+                <div id = "inventory_div" class = "box_div"> 
+                    <div id = "money_div">  </div>
+                    <div id = "inventory_content_div"> </div>
+
+                    <div id = "inventory_sorting_div">
+                        <div id = "inventory_sort_by_name" class = "character_sorting_button active_selection_button" onclick='sortCharacterInventory("name")'> Sort by name </div>
+                        <div id = "inventory_sort_by_price" class = "character_sorting_button" onclick='sortCharacterInventory("price")'> Sort by value </div>
+                    </div>
+                    <div id = "inventory_control_div">
+                        <div id = "inventory_show_all" class = "inventory_control_button active_selection_button" onclick = "showAllItems()"> All </div>
+                        <div id = "inventory_show_equipment" class = "inventory_control_button" onclick = "showOnlyEquipment()"> Equipment </div>
+                        <div id = "inventory_show_consumable" class = "inventory_control_button" onclick = "showOnlyConsumables()"> Usable </div>
+                        <div id = "inventory_show_other" class = "inventory_control_button" onclick = "showOnlyOther()"> Other </div> 
+                    </div>
+                </div>
+
+                <div id = "time_and_location" class = "box_div">
+                    <div id = "time_div"> </div>
+                    
+                    <div id = "location_name_div">
+                        <span id = "location_name_span"></span>
+                        <span id = "location_name_tooltip"></span>
+                    </div>
+                    <div id = "location_types_div">
+                        
+                    </div>
+                </div>
+
+            </div>
+
+            <div id = "area_page">
+
+                <div id = "character_effects_area_page" class = "box_div">
+                    <div id = "effects_div">
+                        <div> Active effects: </div>
+                        <div id = "active_effect_count"> 0 </div>
+                    </div>
+                </div>
+
+                <div id = "character_combat_management" class = "box_div">
+                    
+                    <div id = "attack_stats">
+                        <div class = "attack_stat attack_stat_long">
+
+                        </div>
+                        |
+                        <div class = "attack_stat attack_stat_long">
+                            
+                        </div>
+                        |
+                        <div class = "attack_stat attack_stat_short">
+                            
+                        </div>
+                        |
+                        <div class = "attack_stat attack_stat_short">
+                            
+                        </div>
+                        |
+                        <div class = "attack_stat attack_stat_short">
+                            
+                        </div>
+                    </div>
+                
+                
+                    <div id = "character_attack_name">
+                        normal stance
+                    </div>
+                    <div id = "character_attack_bar">
+
+                    </div>
+                </div>
+                <!-- location info (name, type[safe/combat], weather, time, etc?)-->
+                <div id = "location_div" class = "box_div"> 
+                    <div id = "location_description_div">
+                        
+                    </div>
+                    <div id = "location_picture_div" >
+                        
+                    </div>
+                </div>
+
+                <div id = "combat_div" class = "box_div">
+                    <div id = "enemies_div">
+                        <div id = "enemy_0_div" class = "enemy_div">
+                            <div>
+                                <div class = "enemy_name">
+                                    
+                                </div>
+                                <div class = "enemy_stats">
+                                    <div class = "enemy_stat enemy_stat_long">
+
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_long">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                    
+                                    </div>
+                                </div>
+                                <div class = "enemy_health_div">
+                                    <div class = "enemy_healthbar_max">
+                                        <div class = "enemy_healthbar_current">
+
+                                        </div>
+                                    </div>
+                                    <div class = "enemy_health_value">
+                                            
+                                    </div>
+
+                                </div>
+                                
+                                <div class = "enemy_attack_bar">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id = "enemy_1_div" class = "enemy_div">
+                            <div>
+                                <div class = "enemy_name">
+
+                                </div>
+                                <div class = "enemy_stats">
+                                    <div class = "enemy_stat enemy_stat_long">
+
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_long">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                </div>
+                                <div class = "enemy_health_div">
+                                    <div class = "enemy_healthbar_max">
+                                        <div class = "enemy_healthbar_current">
+
+                                        </div>
+                                    </div>
+                                    <div class = "enemy_health_value">
+                                        
+                                    </div>
+
+                                </div>
+                                
+                                <div class = "enemy_attack_bar">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id = "enemy_2_div" class = "enemy_div">
+                            <div>
+                                <div class = "enemy_name">
+
+                                </div>
+                                <div class = "enemy_stats">
+                                    <div class = "enemy_stat enemy_stat_long">
+
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_long">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                </div>
+                                <div class = "enemy_health_div">
+                                    <div class = "enemy_healthbar_max">
+                                        <div class = "enemy_healthbar_current">
+
+                                        </div>
+                                    </div>
+                                    <div class = "enemy_health_value">
+                                        
+                                    </div>
+
+                                </div>
+                                
+                                <div class = "enemy_attack_bar">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id = "enemy_3_div" class = "enemy_div">
+                            <div>
+                                <div class = "enemy_name">
+
+                                </div>
+                                <div class = "enemy_stats">
+                                    <div class = "enemy_stat enemy_stat_long">
+
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_long">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                </div>
+                                <div class = "enemy_health_div">
+                                    <div class = "enemy_healthbar_max">
+                                        <div class = "enemy_healthbar_current">
+
+                                        </div>
+                                    </div>
+                                    <div class = "enemy_health_value">
+                                        
+                                    </div>
+
+                                </div>
+                                
+                                <div class = "enemy_attack_bar">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id = "enemy_4_div" class = "enemy_div">
+                            <div>
+                                <div class = "enemy_name">
+
+                                </div>
+                                <div class = "enemy_stats">
+                                    <div class = "enemy_stat enemy_stat_long">
+
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_long">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                </div>
+                                <div class = "enemy_health_div">
+                                    <div class = "enemy_healthbar_max">
+                                        <div class = "enemy_healthbar_current">
+
+                                        </div>
+                                    </div>
+                                    <div class = "enemy_health_value">
+                                        
+                                    </div>
+
+                                </div>
+                                
+                                <div class = "enemy_attack_bar">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id = "enemy_5_div" class = "enemy_div">
+                            <div>
+                                <div class = "enemy_name">
+
+                                </div>
+                                <div class = "enemy_stats">
+                                    <div class = "enemy_stat enemy_stat_long">
+
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_long">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                </div>
+                                <div class = "enemy_health_div">
+                                    <div class = "enemy_healthbar_max">
+                                        <div class = "enemy_healthbar_current">
+
+                                        </div>
+                                    </div>
+                                    <div class = "enemy_health_value">
+                                        
+                                    </div>
+
+                                </div>
+                                
+                                <div class = "enemy_attack_bar">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id = "enemy_6_div" class = "enemy_div">
+                            <div>
+                                <div class = "enemy_name">
+
+                                </div>
+                                <div class = "enemy_stats">
+                                    <div class = "enemy_stat enemy_stat_long">
+
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_long">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                </div>
+                                
+                                <div class = "enemy_health_div">
+                                    <div class = "enemy_healthbar_max">
+                                        <div class = "enemy_healthbar_current">
+
+                                        </div>
+                                    </div>
+                                    <div class = "enemy_health_value">
+                                        
+                                    </div>
+
+                                </div>
+
+                                
+                                <div class = "enemy_attack_bar">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id = "enemy_7_div" class = "enemy_div">
+                            <div>
+                                <div class = "enemy_name">
+
+                                </div>
+                                <div class = "enemy_stats">
+                                    <div class = "enemy_stat enemy_stat_long">
+
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_long">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                    |
+                                    <div class = "enemy_stat enemy_stat_short">
+                                        
+                                    </div>
+                                </div>
+                                <div class = "enemy_health_div">
+                                    <div class = "enemy_healthbar_max">
+                                        <div class = "enemy_healthbar_current">
+
+                                        </div>
+                                    </div>
+                                    <div class = "enemy_health_value">
+                                        
+                                    </div>
+
+                                </div>
+                                
+                                <div class = "enemy_attack_bar">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id = "enemy_count_div">
+                        <div id = "enemy_count_content">
+                            <div style = "display:inline-block;"> 
+                                Enemy groups left: 
+                            </div>
+                            <div id = "enemies_left_div">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- actions and stuff-->
+                <div id = "location_related_div" class = "box_div">
+                    <div id = "location_actions_div">	
+                        
+                    </div>
+
+                    <div id = "trade_div">
+                        <div id = "trader_sorting_buttons"> 
+                            <div id = "trader_sort_by_name" class = "trader_sorting_button active_selection_button" onclick='sortTraderInventory("name")'>
+                                Sort by name
+                            </div>
+                            <div id = "trader_sort_by_price" class = "trader_sorting_button" onclick='sortTraderInventory("price")'>
+                                Sort by value
+                            </div>
+                        </div>
+                        <div id = "trader_category_buttons">
+                            <div id = "trader_category_all" class = "trader_category_button active_selection_button" onclick='showAllTraderItems()'>
+                                all
+                            </div>
+                            <div id = "trader_category_equipment" class = "trader_category_button" onclick="showOnlyTraderEquipment()">
+                                equipment
+                            </div>
+                            <div id = "trader_category_usable" class = "trader_category_button" onclick="showOnlyTraderConsumables()">
+                                usable
+                            </div>
+                            <div id = "trader_category_other" class = "trader_category_button" onclick="showOnlyTraderOther()">
+                                other
+                            </div>
+                        </div>
+
+
+                        <div id = "trader_inventory_div">
+
+                        </div>
+                        <div id = "trade_control_div">
+
+                            <div id = "trader_cost_mult">
+                                <div id = "trader_cost_mult_text"> Prices: </div>
+                                <div id = "trader_cost_mult_value"> </div>
+                            </div>
+                            
+                            <div id = "trade_price_div">
+                                <div id = "trade_price_text"> Total cost: </div>
+                                <div id = "trade_price_value"> 0C </div>
+                            </div>
+
+                            <div id = "accept_trade_button" onclick = "acceptTrade()">
+                                Accept
+                            </div> 
+                            <div id = "cancel_trade_button" onclick = "cancelTrade()">
+                                Cancel
+                            </div> 
+                            <div id = "exit_trade_button" onclick = "exitTrade()">
+                                Exit
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+
+            <div id = "character_page">
+                
+                <!-- character stats and equipment-->
+                <div id = "character_div" class = "box_div"> 
+                    <div id = "character_stats_div"> 
+                        <div id = "character_level_div">
+                            Lvl: 0
+                        </div>
+                        <div class = "grid_container">
+                            <div class = "stat_slot_div"> 
+                                <div class = "stat_name"> Strength: </div>
+                                <div class = "stat_value" id = "strength_slot"></div> 
+                                <span class = "stat_tooltip"> Your strength. It affects power of physical attacks </span>
+                            </div>
+                            <div class = "stat_slot_div"> 
+                                <div class = "stat_name"> Agility: </div>
+                                <div class = "stat_value" id = "agility_slot"></div> 
+                                <span class = "stat_tooltip"> Your agility. It affects your evasion chance </span>
+                            </div>
+                        </div>
+                        <div class = "grid_container">
+                            <div class = "stat_slot_div"> 
+                                <div class = "stat_name"> Dexterity: </div>
+                                <div class = "stat_value" id = "dexterity_slot"></div> 
+                                <span class = "stat_tooltip"> Your dexterity. It affects your chance to hit target </span>
+                            </div>
+                            <div class = "stat_slot_div"> 
+                                <div class = "stat_name"> Intuition </div>
+                                <div class = "stat_value" id = "intuition_slot"></div> 
+                                <span class = "stat_tooltip"> Your intuition. It's necessary for magic, while also providing slight bonus to hit chance and evasion </span>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class = "grid_container">
+                            <div class = "stat_slot_div"> 
+                                <div class = "stat_name"> Defense: </div>
+                                <div class = "stat_value" id = "defense_slot"></div> 
+                                <span class = "stat_tooltip"> Your defense. Based on worn equipment, lowers damage taken </span>
+                            </div>
+                            <div class = "stat_slot_div"> 
+                                <div class = "stat_name"> Magic: </div>
+                                <div class = "stat_value" id = "magic_slot"></div> 
+                                <span class = "stat_tooltip"> Your magic power. It affects damage of magic attacks </span>
+                            </div>
+                            
+                        </div>
+                        <div class = "grid_container">
+                            <div class = "stat_slot_div"> 
+                                <div class = "stat_name"> Atk power: </div>
+                                <div class = "stat_value" id = "attack_power_slot"></div> 
+                                <span class = "stat_tooltip"> Attack power. Based on weapon statistics, strength and/or magic </span>
+                            </div>
+                            <div class = "stat_slot_div"> 
+                                <div class = "stat_name"> Atk spd: </div>
+                                <div class = "stat_value" id = "attack_speed_slot"></div> 
+                                <span class = "stat_tooltip"> Attack speed. Directly affects the attack frequency </span>
+                            </div>
+                            
+                            
+                        </div>
+                        <div class = "grid_container">
+                            <div class = "stat_slot_div"> 
+                                <div class = "stat_name"> Crit rate: </div>
+                                <div class = "stat_value" id = "crit_rate_slot"></div> 
+                                <span class = "stat_tooltip"> Your chance for critical attack </span>
+                            </div>
+                            <div class = "stat_slot_div"> 
+                                <div class = "stat_name"> Crit mult: </div>
+                                <div class = "stat_value" id = "crit_multiplier_slot"></div> 
+                                <span class = "stat_tooltip"> Damage of your critical attacks </span>
+                            </div>
+                        </div>
+                        <div class = "grid_container">
+                            <div class = "stat_slot_div"> 
+                                <div class = "stat_name"> AP: </div>
+                                <div class = "stat_value" id = "hit_chance_slot"></div> 
+                                <span class = "stat_tooltip"> 
+                                    Attack points, a total value of everything that contributes to the chance to hit an enemy, except for some situational skills and modifiers. </span>
+                            </div>
+                            <div class = "stat_slot_div" id = "defensive_action_chance"> 
+                                <div class = "stat_name" id = "defensive_action_slot"> </div>
+                                <div class = "stat_value" id = "defensive_action_chance_slot"></div> 
+
+                                <!-- tooltip content is set in display.js-->
+                                <span class = "stat_tooltip"> </span>
+                            </div>
+                        </div>
+
+                        <div id = "character_effects_character_page">
+
+                        </div>
+
+                    </div>
+                    
+                    <div id = "character_equipment_div"> 
+                        <div class = "grid_container">
+                            <div class = "equipment_slot_div" id = "head_slot"> head </div>
+                            <div class = "equipment_slot_div" id = "torso_slot"> torso </div>
+                        </div>
+                        <div class = "grid_container">
+                            <div class = "equipment_slot_div" id = "arms_slot"> arms </div>
+                            <div class = "equipment_slot_div" id = "ring_slot"> ring </div>
+                        </div>
+                        <div class = "grid_container">
+                            <div class = "equipment_slot_div" id = "weapon_slot"> weapon </div>
+                            <div class = "equipment_slot_div" id = "offhand_slot"> off-hand </div>
+                        </div>
+                        <div class = "grid_container">
+                            <div class = "equipment_slot_div" id = "legs_slot"> legs </div>
+                            <div class = "equipment_slot_div" id = "feet_slot"> feet </div>
+                        </div>
+                        <div class = "equipment_slot_div amulet_slot_div" id = "amulet_slot"> amulet </div>
+                    </div>
+
+                    <div id = "character_tools_div">
+
+                    </div>
+
+                    <div id = "character_control_div">
+                        <div id = "character_show_stats" class = "character_control_button active_selection_button" onclick = "showCharacterStats()"> Stats </div>
+                        <div id = "character_show_equipment" class = "character_control_button" onclick = "showCharacterEquipment()"> Equipment </div>
+                        <div id = "character_show_tools" class = "character_control_button" onclick = "showCharacterTools()"> Tools </div>
+                    </div>
+                </div>
+
+                <div id="skills_and_stances_div" class="box_div">
+                    <div id = "skill_list_div">
+                            <div id = "skill_list_header">
+                                = Skills =
+                            </div>
+                            <div id = "skill_list">
+
+                            </div>
+                            <div id = "skill_sorting_buttons"> 
+                                <div id = "skill_sort_by_name" class = "skill_sorting_button active_selection_button" onclick='sortSkills({sort_by:"name"})'>
+                                    Sort by name
+                                </div>
+                                <div id = "skill_sort_by_level" class = "skill_sorting_button" onclick='sortSkills({sort_by:"level"})'>
+                                    Sort by level
+                                </div>
+                            </div>
+                    </div>
+                    <div id = "stance_list_div">
+
+                    </div>
+                    <div id = "skill_and_stance_control_div">
+
+                    </div>
+                </div>
+
+                <div id = "journal_div" class = "box_div">
+                    <div id = "quests_box_div">
+                        <div id = "quests_header">
+                            = Quests =
+                        </div>
+                        <div id = "quest_list">
+
+                        </div>
+                    </div>
+                    <div id = "bestiary_box_div">
+                        <div id="bestiary_header">
+                            = Bestiary =
+                        </div>
+                        <div id = "bestiary_list">
+
+                        </div>
+                        
+                    </div>
+                    <div id = "data_box_div">
+                        <div id="data_header">
+                            = Data =
+                        </div>
+                        <div id = "data_list">
+                            <div id = "data_xp">
+                                <div id = "character_xp_multiplier" class="data_entry"></div>
+                                <div id = "skills_xp_multiplier" class="data_entry"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id = "journal_control_div">
+                        <div id = "journal_show_quests" class = "journal_control_button" onclick = "showQuests()"> Quests </div>
+                        <div id = "journal_show_bestiary" class = "journal_control_button active_selection_button" onclick = "showBestiary()"> Bestiary </div>
+                        <div id = "journal_show_data" class = "journal_control_button" onclick = "showData()"> Data </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- message log -->
+            <div id = "message_log_div" class = "box_div">
+                <div id = "message_box_div">
+
+                </div>
+                <div id = "message_controls">
+
+                    <div id = "message_show_unlocks" class = "message_control_button active_selection_button" onclick = "showUnlocksMessages()">
+                        Levels and unlocks
+                    </div>
+                    <div id = "message_show_events" class = "message_control_button active_selection_button" onclick = "showEventsMessages()">
+                        Events
+                    </div>
+                    <div id = "message_show_combat" class = "message_control_button active_selection_button" onclick = "showCombatMessages()">
+                        Combat
+                    </div>
+                    <div id = "message_show_loot" class = "message_control_button active_selection_button" onclick = "showLootMessages()">
+                        Loot
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div id = "page_selection">
+            <div id = "area_page_button" class = "page_selection_button active_selection_button" onclick = "showAreaPage()">
+                Area / Combat
+            </div>
+            <div id = "character_page_button" class = "page_selection_button" onclick = "showCharacterPage()">
+                Character
+            </div>
+        </div>
+
+        <div id = "bottom_panel_div">
+            <div id = "save_button" class = "sl_button" onclick = "saveProgress()"> Save </div>
+            <div id = "save_to_file_button" class = "sl_button" onclick = "saveToFile()"> Export </div>
+            <label id = "load_from_file_button" class = "sl_button" for = "saved_file_input"> Import </label> 
+            <input id = "saved_file_input" type='file' accept = 'text/plain' onchange = 'loadProgress(event)'>	
+
+            <div id = "changelog_button" class = "game_info"><a href="changelog.txt" target="_blank"></a></div>
+            <div id = "help_button" class = "game_info"><a href="help.html" target="_blank"><i class="material-icons">help_outline</i></a></div>
+            <div id = "options_button" class = "game_info" onclick="openOptions()"><a><i class="material-icons">settings</i></a></div>
+            
+        </div>
+
+        <div id="options_panel">
+            <div id="close_options" onclick="closeOptions()"> X </div>
+            <div id="options_choices">
+                <div class="options_choice">
+                    <input type="checkbox" id="options_textsize" name="options_textsize" value="options_textsize" onclick = "option_uniform_textsize()" />
+                    <label for="options_textsize">Force uniform size of text in action box</label>
+                </div>
+                <div class="options_choice">
+                    <input type="checkbox" id="options_bed_return" name="options_bed_return" value="options_bed_return" onclick = "option_bed_return()"/>
+                    <label for="options_bed_return">Return to last bed upon defeat</label>
+                </div>
+                <div class="options_choice">
+                    <input type="checkbox" id="options_save_messagelog_settings" name="options_save_messagelog_settings" value="options_save_messagelog_settings" onclick = "option_remember_filters()"/>
+                    <label for="options_save_messagelog_settings">Remember message log filters</label>
+                </div>
+            </div>
+            <div id = "hard_reset_button" onclick = "hardReset()"> Hard reset the game </div>
+        </div>
+
+        <script>
+
+            function openOptions() {
+                if(document.documentElement.style.getPropertyValue("--options_display") !== "block") {
+                    document.documentElement.style.setProperty('--options_display', 'block');
+                }
+                else {
+                    closeOptions();
+                }
+            }
+            function closeOptions() {
+                document.documentElement.style.setProperty('--options_display', 'none');
+            }
+            function showAllItems() {
+                document.documentElement.style.setProperty('--equipment_display', 'inline-block');
+                document.documentElement.style.setProperty('--consumables_display', 'inline-block');
+                document.documentElement.style.setProperty('--other_display', 'inline-block');
+            }
+            function showOnlyEquipment() {
+                document.documentElement.style.setProperty('--equipment_display', 'inline-block');
+                document.documentElement.style.setProperty('--consumables_display', 'none');
+                document.documentElement.style.setProperty('--other_display', 'none');
+            }
+            function showOnlyConsumables() {
+                document.documentElement.style.setProperty('--equipment_display', 'none');
+                document.documentElement.style.setProperty('--consumables_display', 'inline-block');
+                document.documentElement.style.setProperty('--other_display', 'none');
+
+            }
+            function showOnlyOther() {
+                document.documentElement.style.setProperty('--equipment_display', 'none');
+                document.documentElement.style.setProperty('--consumables_display', 'none');
+                document.documentElement.style.setProperty('--other_display', 'inline-block');
+            }
+
+            function showAllTraderItems() {
+                document.documentElement.style.setProperty('--trader_equipment_display', 'inline-block');
+                document.documentElement.style.setProperty('--trader_consumable_display', 'inline-block');
+                document.documentElement.style.setProperty('--trader_other_display', 'inline-block');
+            }
+            function showOnlyTraderEquipment() {
+                document.documentElement.style.setProperty('--trader_equipment_display', 'inline-block');
+                document.documentElement.style.setProperty('--trader_consumable_display', 'none');
+                document.documentElement.style.setProperty('--trader_other_display', 'none');
+            }
+            function showOnlyTraderConsumables() {
+                document.documentElement.style.setProperty('--trader_equipment_display', 'none');
+                document.documentElement.style.setProperty('--trader_consumable_display', 'inline-block');
+                document.documentElement.style.setProperty('--trader_other_display', 'none');
+            }
+            function showOnlyTraderOther() {
+                document.documentElement.style.setProperty('--trader_equipment_display', 'none');
+                document.documentElement.style.setProperty('--trader_consumable_display', 'none');
+                document.documentElement.style.setProperty('--trader_other_display', 'inline-block');
+            }
+
+            function showCombatMessages() {
+                if(document.documentElement.style.getPropertyValue('--message_combat_display') !== "none") {
+                    document.documentElement.style.setProperty('--message_combat_display', 'none');
+                } else {
+                    document.documentElement.style.setProperty('--message_combat_display', 'inline-block');
+                }
+            }
+
+            function showUnlocksMessages() {
+                if(document.documentElement.style.getPropertyValue('--message_unlocks_display') !== "none") {
+                    document.documentElement.style.setProperty('--message_unlocks_display', 'none');
+                } else {
+                    document.documentElement.style.setProperty('--message_unlocks_display', 'inline-block');
+                }
+            }
+
+            function showLootMessages() {
+                if(document.documentElement.style.getPropertyValue('--message_loot_display') !== "none") {
+                    document.documentElement.style.setProperty('--message_loot_display', 'none');
+                } else {
+                    document.documentElement.style.setProperty('--message_loot_display', 'inline-block');
+                }
+            }
+
+            function showEventsMessages() {
+                if(document.documentElement.style.getPropertyValue('--message_events_display') !== "none") {
+                    document.documentElement.style.setProperty('--message_events_display', 'none');
+                } else {
+                    document.documentElement.style.setProperty('--message_events_display', 'inline-block');
+                }
+            }
+            
+            function showData() {
+                document.getElementById("data_box_div").style.display = "block";
+                document.getElementById("quests_box_div").style.display = "none";
+                document.getElementById("bestiary_box_div").style.display = "none";
+            }
+            function showQuests() {
+                document.getElementById("data_box_div").style.display = "none";
+                document.getElementById("quests_box_div").style.display = "block";
+                document.getElementById("bestiary_box_div").style.display = "none";
+            }
+            function showBestiary() {
+                document.getElementById("data_box_div").style.display = "none";
+                document.getElementById("quests_box_div").style.display = "none";
+                document.getElementById("bestiary_box_div").style.display = "block";
+            }
+
+
+            function showAreaPage() {
+                document.getElementById("character_page").style.visibility = "hidden";
+                document.getElementById("area_page").style.visibility = "visible";
+                document.getElementById("character_effects_area_page").appendChild(document.getElementById("effects_div"));
+                
+                if(!is_in_trade()) {
+                    document.documentElement.style.setProperty('--inventory_div_display', 'none');
+                }
+            }
+
+            function showCharacterPage() {
+                document.getElementById("character_page").style.visibility = "visible";
+                document.getElementById("area_page").style.visibility = "hidden";
+                document.getElementById("character_effects_character_page").appendChild(document.getElementById("effects_div"));
+                document.documentElement.style.setProperty('--inventory_div_display', 'block'); //just make sure it's always visible on this page
+            }
+
+            function showCharacterStats() {
+                document.getElementById("character_equipment_div").style.display = "none";
+                document.getElementById("character_stats_div").style.display = '';
+                document.getElementById("character_tools_div").style.display = "none";
+
+            }
+            function showCharacterEquipment() {
+                document.getElementById("character_equipment_div").style.display = "grid";
+                document.getElementById("character_stats_div").style.display = "none";
+                document.getElementById("character_tools_div").style.display = "none";
+            }
+
+            function showCharacterTools() {
+                document.getElementById("character_equipment_div").style.display = "none";
+                document.getElementById("character_stats_div").style.display = "none";
+                document.getElementById("character_tools_div").style.display = "grid";
+            }
+
+            var in_trade = false;
+            var total_price;
+            const trade_price_value = document.getElementById("trade_price_value");
+            let trader_sorting = "name";
+            let character_sorting = "name";
+            let skill_sorting = "name";
+
+            function check_trade_cost() {
+                const accept_button = document.getElementById("accept_trade_button");
+                if(total_price + get_character_money() < 0) { //can't afford
+                    accept_button.style.cursor = "no-drop";
+                    accept_button.style.backgroundColor = "rgba(0, 128, 0, 0.3)";
+                    
+                    return false;
+                } else {
+                    accept_button.style.cursor = "pointer";
+                    accept_button.style.backgroundColor = "green";
+
+                    return true;
+                }
+            }
+            
+            function startTrade(trader_key) {
+                in_trade = true;
+                total_price = 0;
+                trade_price_value.innerHTML = format_money(total_price);
+                document.documentElement.style.setProperty('--trade_ammount_button_display', 'inline-block');
+                document.documentElement.style.setProperty('--item_use_button_display', 'none');
+                document.documentElement.style.setProperty('--item_other_width', getComputedStyle(document.body).getPropertyValue('--item_other_width_trade'));
+                document.documentElement.style.setProperty('--inventory_div_display', 'block');
+
+                start_trade(trader_key);
+            }
+            function exitTrade() {
+                in_trade = false;
+                total_price = 0;
+                trade_price_value.innerHTML = format_money(total_price);
+                document.documentElement.style.setProperty('--trade_ammount_button_display', 'none');
+                document.documentElement.style.setProperty('--item_use_button_display', 'inline-block');
+                document.documentElement.style.setProperty('--item_other_width', getComputedStyle(document.body).getPropertyValue('--item_other_width_default'));
+                
+                document.documentElement.style.setProperty('--inventory_div_display', 'none');
+
+                const accept_button = document.getElementById("accept_trade_button");
+                accept_button.style.cursor = "pointer";
+                accept_button.style.backgroundColor = "green";
+
+                exit_trade();
+            }
+
+            function cancelTrade() {
+                total_price = 0;
+                trade_price_value.innerHTML = format_money(total_price);
+
+                const accept_button = document.getElementById("accept_trade_button");
+                accept_button.style.cursor = "pointer";
+                accept_button.style.backgroundColor = "green";
+
+                cancel_trade();
+            }
+
+            function acceptTrade() {
+                if(check_trade_cost()) {
+                    total_price = 0;
+                    trade_price_value.innerHTML = format_money(total_price);
+                    accept_trade();
+                } else {
+                    console.log("You can't afford this");
+                }
+            }
+
+            function sortTraderInventory(option) {
+                trader_sorting = option;
+                sort_displayed_inventory({sort_by: option, target: "trader", change_direction: true});
+            }
+
+            function sortCharacterInventory(option) {
+                character_sorting = option;
+                sort_displayed_inventory({sort_by: option, target: "character", change_direction: true})
+            }
+
+            function sortSkills({sort_by}) {
+                sort_displayed_skills({sort_by, change_direction: true});
+            }
+
+            function saveToFile() {
+                var a = window.document.createElement('a');
+                a.href = window.URL.createObjectURL(new Blob([save_to_file()], {type: 'text/plain'}));
+                const date = new Date();
+                const year = date.getFullYear();
+                const month = date.getMonth() > 9 ? date.getMonth().toString() : "0" + date.getMonth().toString();
+                const day = date.getDate() > 9 ? date.getDate().toString() : "0" + date.getDate().toString();
+                const hour = date.getHours() > 9 ? date.getHours().toString() : "0" + date.getHours().toString();
+                const minute = date.getMinutes() > 9 ? date.getMinutes().toString() : "0" + date.getMinutes().toString();
+                const second = date.getSeconds() > 9 ? date.getSeconds().toString() : "0" + date.getSeconds().toString();
+                a.download = `yet-another-idle-rpg ${year}-${month}-${day} ${hour}_${minute}_${second}.txt`;
+
+                document.body.appendChild(a);
+                a.click();
+
+                document.body.removeChild(a);
+            }
+
+            function saveProgress() {
+                save_to_localStorage(true);
+            }
+
+            function loadProgress(event) {
+                    var file = event.target.files[0];
+                    var reader = new FileReader();
+
+                    reader.onload = function() {
+                        load_progress(reader.result);
+                    };
+
+                    reader.readAsText(file);
+
+                    event.target.value = ""; //necessary to allow loading same file more than once in a row without refreshing
+            };
+
+            function hardReset() {
+                var confirmation = prompt(`This will erase all your progress and you will have to start from the very beginning. If you are sure this is what you want, type "yes" below`);
+
+                if(confirmation === "yes" || confirmation === `"yes"`) {
+                    localStorage.removeItem("save data");
+                    window.location.reload();
+                    return false;
+                }
+                else {
+                    console.log("Hard reset was cancelled");
+                }
+            }
+
+            function prepareGame() { //called on body loaded
+                document.getElementById("changelog_button").children[0].innerHTML = get_game_version();
+
+                //mostly sets up event listeners
+                /////////////////////
+                //(un)equipping items:
+                const inventory_div = document.getElementById("inventory_div");
+                inventory_div.onclick = function(event) {
+                    var clicked_element = event.target;
+                    if(clicked_element.classList.contains("equip_item_button")) {
+                        var last_index = clicked_element.parentNode.getAttribute("data-character_item").lastIndexOf(" #"); 
+                        //always ends with " #number", so this will get index of that whitespace before "#"
+
+                        equip_item({item_name: clicked_element.parentNode.getAttribute("data-character_item").substr(0, last_index), 
+                                    item_id: clicked_element.parentNode.getAttribute("data-character_item").substr(last_index+2)
+                        });
+                    }
+                    else if(clicked_element.classList.contains("unequip_item_button")) {
+                        var last_index = clicked_element.parentNode.getAttribute("data-character_item").lastIndexOf(" #"); 
+                        //always ends with " #slot", so this will get index of that whitespace before "#"
+
+                        unequip_item(clicked_element.parentNode.getAttribute("data-character_item").substr(last_index+2));
+                    } 
+                    else if(clicked_element.classList.contains("item_use_button")) {
+                        if(clicked_element.parentNode.classList.contains("character_item_book")) {
+                            start_reading(clicked_element.parentNode.getAttribute("data-character_item"));
+                        } else {
+                            use_item(clicked_element.parentNode.getAttribute("data-character_item"));
+                            update_displayed_character_inventory(character_sorting);
+                        }
+                    }
+                }
+
+                const item_tooltip_margin = Number(getComputedStyle(document.querySelector('.item_tooltip'))["margin-left"].replace("px",""));
+                //margin-left of tooltip elements
+
+                ///////////////
+                //character item tooltips
+                inventory_div.addEventListener('mousemove', move_item_tooltip, false);
+                function move_item_tooltip(event) {
+                    var hovered_element = event.target;
+                    
+                    if( !( hovered_element.classList.contains("inventory_item_control") 
+                        || hovered_element.classList.contains("trade_ammount_button")
+                        || hovered_element.classList.contains("inventory_item") 
+                        || hovered_element.classList.contains("item_controls") 
+                        || hovered_element.classList.contains("item_use_button") 
+                        || hovered_element.classList.contains("item_read_button") 
+                        || hovered_element.classList.contains("inventory_item_name") 
+                        || hovered_element.classList.contains("item_tooltip")
+                        || hovered_element.nodeName === "SPAN"
+                        )) {
+                        return;
+                    }
+
+                    //set horizontal position
+                    document.documentElement.style.setProperty('--item_tooltip_left', `${event.pageX - 20}px`);
+
+                    //calculate vertical position so it doesnt go under bottom edge
+                    
+                    if(!hovered_element.classList.contains("inventory_item_control")){
+                        if(hovered_element.classList.contains("trade_ammount_button") 
+                            || hovered_element.classList.contains("inventory_item") 
+                            || hovered_element.classList.contains("item_controls") 
+                            || hovered_element.classList.contains("item_use_button") 
+                            || hovered_element.classList.contains("item_read_button")
+                            )
+                        {
+                            hovered_element = hovered_element.parentNode;
+                        } else if(hovered_element.classList.contains("inventory_item_name")  || hovered_element.classList.contains("item_tooltip")) {
+                            hovered_element = hovered_element.parentNode.parentNode;
+                        } else if(hovered_element.nodeName === "SPAN") {
+                            hovered_element = hovered_element.parentNode.parentNode.parentNode;
+                        }
+                    }
+
+                    const tooltip_height = hovered_element.children[0].children[1].scrollHeight;
+
+                    const body = document.getElementsByTagName("body")[0];
+                    const scrollbar_X_visible = (body.scrollWidth - body.clientWidth) > 0;
+
+                    const bottom_edge_position = 
+                        window.innerHeight - tooltip_height - item_tooltip_margin + window.scrollY - 25 - (scrollbar_X_visible?10:0);
+                    
+                    if(event.pageY > bottom_edge_position) {
+                        document.documentElement.style.setProperty('--item_tooltip_top', `${bottom_edge_position - 400}px`);
+                    } else {
+                        document.documentElement.style.setProperty('--item_tooltip_top', `${event.pageY - 400}px`);
+                    }
+                    
+                }
+                
+                //////////////////////
+                //trader item tooltips
+
+                var trader_inventory_div = document.getElementById("trader_inventory_div");
+                trader_inventory_div.addEventListener('mousemove', move_trader_item_tooltip, false);
+                function move_trader_item_tooltip(event) {
+                    if(event.target.id === "trader_inventory_div") {
+                        return;
+                    }
+
+                    var hovered_element = event.target;
+                    if(!hovered_element.classList.contains("trader_item_control")){
+                        if(hovered_element.classList.contains("trade_ammount_button") 
+                            || hovered_element.classList.contains("trader_item") 
+                            || hovered_element.classList.contains("item_value")) 
+                        {
+                            hovered_element = hovered_element.parentNode;
+                        } else if(hovered_element.classList.contains("inventory_item_name")  || hovered_element.classList.contains("item_tooltip")) {
+                            hovered_element = hovered_element.parentNode.parentNode;
+                        } else if(hovered_element.classList.contains("item_slot") || hovered_element.nodeName === "SPAN") {
+                            hovered_element = hovered_element.parentNode.parentNode.parentNode;
+                        }
+                    }
+                    const tooltip_width = hovered_element.children[0].children[1].scrollWidth;
+                    const tooltip_height = hovered_element.children[0].children[1].scrollHeight;
+
+                    const body = document.getElementsByTagName("body")[0];
+                    const scrollbar_Y_visible = (body.scrollHeight - body.clientHeight) > 0;
+                    const scrollbar_X_visible = (body.scrollWidth - body.clientWidth) > 0;
+
+                    const right_edge_position = 
+                        window.innerWidth - tooltip_width  - item_tooltip_margin + window.scrollX - (scrollbar_Y_visible?10:0);
+                    const bottom_edge_position = 
+                        window.innerHeight - tooltip_height - item_tooltip_margin + window.scrollY - (scrollbar_X_visible?10:0);
+                
+                    if(event.pageX > right_edge_position) {
+                        document.documentElement.style.setProperty('--item_tooltip_left', `${right_edge_position - 420}px`);
+                    } else {
+                        document.documentElement.style.setProperty('--item_tooltip_left', `${event.pageX - 420}px`);
+                    }
+                    
+                    if(event.pageY > bottom_edge_position) {
+                        document.documentElement.style.setProperty('--item_tooltip_top', `${bottom_edge_position - 400}px`);
+                    } else {
+                        document.documentElement.style.setProperty('--item_tooltip_top', `${event.pageY - 400}px`);
+                    }
+                    
+                }
+
+                trader_inventory_div.addEventListener('mouseenter', (event) => {
+                    document.documentElement.style.setProperty('--item_tooltip_top', `${event.pageY - 370}px`);
+                    document.documentElement.style.setProperty('--item_tooltip_left', `${event.pageX - 370}px`);
+                }); 
+                //prevents trader item tooltip from initially appearing in wrong spot on some occassions
+
+                //item slots / worn equipment tooltips
+                var equipment_div = document.getElementById("character_equipment_div");
+                equipment_div.addEventListener('mousemove', move_equipment_tooltip, false);
+                function move_equipment_tooltip(event) {
+                    var hovered_element = event.target;
+                    if(hovered_element.classList.contains("equipment_slot_div")){
+                        hovered_element.children[0].style.left = event.pageX + "px";
+                        hovered_element.children[0].style.top = event.pageY - 130 + "px";
+                    }
+                }
+
+                //stats tooltips
+                var stats_div = document.getElementById("character_stats_div");
+                stats_div.addEventListener('mousemove', move_stat_tooltip, false);
+                function move_stat_tooltip(event) {
+
+                    document.documentElement.style.setProperty('--stat_tooltip_top', `${event.pageY - 140}px`);
+                    document.documentElement.style.setProperty('--stat_tooltip_left', `${event.pageX}px`);
+                }
+
+                //unequip item
+                equipment_div.onclick = function(event) {
+                    var clicked_element = event.target;
+                    if(clicked_element.classList.contains("equipment_slot_div") && !clicked_element.classList.contains("equipment_slot_empty"))
+                    {
+                        unequip_item(clicked_element.id.replace("_slot", ""));
+
+                        clicked_element.children[0].style.left = event.pageX + "px";
+                        clicked_element.children[0].style.top = event.pageY + "px";
+                    }
+                }
+
+                //activities tooltips
+                const location_actions_div = document.getElementById("location_actions_div");
+                location_actions_div.addEventListener('mousemove', move_activity_tooltip, false);
+                function move_activity_tooltip(event) {
+                    document.documentElement.style.setProperty('--job_tooltip_top', `${event.pageY - 410}px`);
+                    document.documentElement.style.setProperty('--job_tooltip_left', `${event.pageX - 420}px`);
+                }
+
+
+                //skill tooltips
+                const skills_div = document.getElementById("skill_list_div");
+                skills_div.addEventListener('mousemove', move_skill_tooltip, false);
+                function move_skill_tooltip(event) {
+                    var hovered_element = event.target;
+
+                    if(!hovered_element.classList.contains("skill_div")) {
+                        if(hovered_element.classList.contains("skill_bar_max")) {
+                            hovered_element = hovered_element.parentNode;
+                        } else if(hovered_element.classList.contains("skill_bar_text") || hovered_element.classList.contains("skill_bar_current")) {
+                            hovered_element = hovered_element.parentNode.parentNode;
+                        } else if(hovered_element.classList.contains("skill_bar_name") || hovered_element.classList.contains("skill_bar_xp")) {
+                            hovered_element = hovered_element.parentNode.parentNode.parentNode;
+                        } else {
+                            return;
+                        }
+                    } 
+
+                    const tooltip_width = hovered_element.children[0].children[2].scrollWidth;
+                    const tooltip_height = hovered_element.children[0].children[2].scrollHeight;
+                    
+                    const body = document.getElementsByTagName("body")[0];
+                    const scrollbar_Y_visible = (body.scrollHeight - body.clientHeight) > 0;
+                    const scrollbar_X_visible = (body.scrollWidth - body.clientWidth) > 0;
+
+                    const right_edge_position = 
+                        window.innerWidth - tooltip_width -  23 + window.scrollX - (scrollbar_Y_visible?10:0);
+                    const bottom_edge_position = 
+                        window.innerHeight - tooltip_height + window.scrollY - 33 - (scrollbar_X_visible?10:0);
+                    
+                    //size of window - size of tooltip + scrolling position - 23 (not sure where it comes from) - 10 (for scrollbar if its visible)
+
+                    if(event.pageX > right_edge_position) {
+                        document.documentElement.style.setProperty('--skill_tooltip_left', `${right_edge_position - 400}px`);
+                    } else {
+                        document.documentElement.style.setProperty('--skill_tooltip_left', `${event.pageX - 400}px`);
+                    }
+
+                    if(event.pageY > bottom_edge_position - 22) {
+                        document.documentElement.style.setProperty('--skill_tooltip_top', `${bottom_edge_position - 372}px`);
+                    } else {
+                        document.documentElement.style.setProperty('--skill_tooltip_top', `${event.pageY - 350}px`);
+                    }
+                }
+
+                //location type tooltips
+                let location_types_div = document.getElementById("location_types_div");
+                location_types_div.addEventListener('mousemove', move_location_type_tooltip, false);
+                function move_location_type_tooltip(event) {
+                    let hovered_element = event.target;
+
+                    if(!hovered_element.classList.contains("location_type_div")) {
+                        return;
+                    } 
+                    const tooltip_width = hovered_element.children[0].scrollWidth;
+                    
+                    const body = document.getElementsByTagName("body")[0];
+                    const scrollbar_Y_visible = (body.scrollHeight - body.clientHeight) > 0;
+
+                    const right_edge_position = 
+                        window.innerWidth - tooltip_width - 23 - 40 + window.scrollX - (scrollbar_Y_visible?10:0);
+
+                    if(event.pageX > right_edge_position) {
+                        document.documentElement.style.setProperty('--location_type_tooltip_left', `${right_edge_position - 680}px`);
+                    } else {
+                        document.documentElement.style.setProperty('--location_type_tooltip_left', `${event.pageX - 680}px`);
+                    }
+
+                    document.documentElement.style.setProperty('--location_type_tooltip_top', `${event.pageY - 60}px`);
+                }
+
+                //location desc tooltip (for combat locations)
+                let location_name_div = document.getElementById("location_name_div");
+                location_name_div.addEventListener('mousemove', move_location_desc_tooltip, false);
+                function move_location_desc_tooltip(event) {
+                    let hovered_element = event.target;
+
+                    if(hovered_element.id === "location_name_span") {
+                        hovered_element = hovered_element.parentNode;
+                    }
+                    else if(hovered_element.id !== "location_name_div") {
+                        return;
+                    }
+                    
+                    const tooltip_width = hovered_element.children[0].scrollWidth;
+                    
+                    const body = document.getElementsByTagName("body")[0];
+                    const scrollbar_Y_visible = (body.scrollHeight - body.clientHeight) > 0;
+
+                    const right_edge_position = 
+                        window.innerWidth - tooltip_width - 23 - 40 + window.scrollX - (scrollbar_Y_visible?10:0);
+
+                    if(event.pageX > right_edge_position) {
+                        document.documentElement.style.setProperty('--location_desc_tooltip_left', `${right_edge_position - 420}px`);
+                    } else {
+                        document.documentElement.style.setProperty('--location_desc_tooltip_left', `${event.pageX - 420}px`);
+                    }
+
+                    document.documentElement.style.setProperty('--location_desc_tooltip_top', `${event.pageY - 40}px`);
+                }
+
+                //bestiary entry tooltips
+                const bestiary_box_div = document.getElementById("bestiary_box_div");
+                bestiary_box_div.addEventListener('mousemove', move_bestiary_entry_tooltip, false);
+                function move_bestiary_entry_tooltip(event) {
+                    var hovered_element = event.target;
+
+                    if(!hovered_element.classList.contains("bestiary_entry_div")) {
+                        if(hovered_element.classList.contains("bestiary_entry_name") || hovered_element.classList.contains("bestiary_entry_kill_count")) {
+                            hovered_element = hovered_element.parentNode;
+                        } else {
+                            return;
+                        }
+                    } 
+                    const tooltip_width = hovered_element.children[0].scrollWidth;
+                    const tooltip_height = hovered_element.children[0].scrollHeight;
+                    
+                    const body = document.getElementsByTagName("body")[0];
+                    const scrollbar_Y_visible = (body.scrollHeight - body.clientHeight) > 0;
+                    const scrollbar_X_visible = (body.scrollWidth - body.clientWidth) > 0;
+
+                    const right_edge_position = 
+                        window.innerWidth - tooltip_width -  23 + window.scrollX - (scrollbar_Y_visible?10:0);
+                    const bottom_edge_position = 
+                        window.innerHeight - tooltip_height + window.scrollY - 33 - (scrollbar_X_visible?10:0);
+                    
+                    //size of window - size of tooltip + scrolling position - 23 (not sure where it comes from) - 10 (for scrollbar if its visible)
+
+                    if(event.pageX > right_edge_position - 10) {
+                        document.documentElement.style.setProperty('--bestiary_entry_tooltip_left', `${right_edge_position - 410}px`);
+                    } else {
+                        document.documentElement.style.setProperty('--bestiary_entry_tooltip_left', `${event.pageX - 400}px`);
+                    }
+
+                    if(event.pageY > bottom_edge_position) {
+                        document.documentElement.style.setProperty('--bestiary_entry_tooltip_top', `${bottom_edge_position - 100}px`);
+                    } else {
+                        document.documentElement.style.setProperty('--bestiary_entry_tooltip_top', `${event.pageY - 100}px`);
+                    }
+                }
+
+                //active effects tooltip
+                const active_effects_div = document.getElementById("effects_div");
+                const effects_tooltip = document.getElementById("effects_tooltip");
+                active_effects_div.addEventListener('mousemove', move_effects_tooltip, false);
+                function move_effects_tooltip(event) {
+                    const hovered_element = event.target;
+                    effects_tooltip.style.display = "block";
+                    if(hovered_element.id === "effects_div" || hovered_element.parentNode.id === "effects_div") {
+                        effects_tooltip.style.left = event.pageX + "px";
+                        effects_tooltip.style.top = event.pageY + 30 + "px";
+                    } 
+                    
+                }
+
+                active_effects_div.addEventListener('mouseout', end_effects_tooltip, false);
+                function end_effects_tooltip(event) {
+                    effects_tooltip.style.display = "none";
+                }
+
+                //move clicked items to proper list
+                inventory_div.addEventListener('click', (event)=>move_trade_item(event, "character"), false);
+                trader_inventory_div.addEventListener('click', (event)=>move_trade_item(event, "trader"), false);
+                function move_trade_item(event, target) {
+                    let clicked_element = event.target;
+
+                    if(!in_trade || clicked_element.classList.contains("equip_item_button") || clicked_element.classList.contains("unequip_item_button")) {
+                        return;
+                    }
+
+                    let number_to_move = 1;
+
+                    //reassignes clicked element to the one with inventory_item_control class 
+                    if(!clicked_element.classList.contains("inventory_item_control")) {
+                        if(clicked_element.classList.contains("inventory_item") || clicked_element.classList.contains("item_value")) {
+                            clicked_element = clicked_element.parentNode; 
+                        } else if(clicked_element.classList.contains("inventory_item_name")) {
+                            clicked_element = clicked_element.parentNode.parentNode; 
+                        } else if(clicked_element.classList.contains("trade_ammount_button")) {
+                            number_to_move = Number(clicked_element.getAttribute("data-trade_ammount"));
+                            clicked_element = clicked_element.parentNode; 
+                        } else if(clicked_element.nodeName === "SPAN") {
+                            clicked_element = clicked_element.parentNode.parentNode.parentNode; 
+                        } else {
+                            return;
+                        }
+                    }
+
+                    if(clicked_element.classList.contains("equipped_item_control")) {
+                        console.log("Can't sell equipped items");
+                        return;
+                    }
+
+                    if(target==="character") {
+                        const selected_item = clicked_element.getAttribute("data-character_item");
+                        if(clicked_element.classList.contains("item_to_trade")) {
+                            //remove from to buy
+                            total_price += remove_from_buying_list({item: selected_item, count: number_to_move});
+                        }
+                        else {
+                            //add to to sell
+                            total_price += add_to_selling_list({item: selected_item, count: number_to_move})
+                        }
+                    } 
+                    else if(target==="trader") {
+                        const selected_item = clicked_element.getAttribute("data-trader_item");
+                        if(clicked_element.classList.contains("item_to_trade")) {
+                            //remove from to_sell
+                            total_price += remove_from_selling_list({item: selected_item, count: number_to_move});
+                        }
+                        else {
+                            //add to to_buy
+                            total_price += add_to_buying_list({item: selected_item, count: number_to_move})
+                        }
+                    }
+
+                    update_displayed_trader_inventory({});
+                    update_displayed_character_inventory({});
+
+                    trade_price_value.innerHTML = format_money(total_price);
+                    check_trade_cost();
+                }
+
+                //set colors for active selection buttons
+                //for stuff where only 1 can be active
+                document.getElementById("inventory_control_div").addEventListener("click", set_active_button);
+                document.getElementById("character_control_div").addEventListener("click", set_active_button);
+                document.getElementById("trader_sort_by_name").addEventListener("click", set_active_button);
+                document.getElementById("trader_sort_by_price").addEventListener("click", set_active_button);
+                document.getElementById("inventory_sorting_div").addEventListener("click", set_active_button);
+                document.getElementById("trader_category_buttons").addEventListener("click", set_active_button);
+                document.getElementById("page_selection").addEventListener("click", set_active_button);
+                document.getElementById("journal_control_div").addEventListener("click", set_active_button);
+                document.getElementById("skill_sorting_buttons").addEventListener("click", set_active_button);
+                function set_active_button(event) {
+                    //based on assumption none of them has child elements
+                    //alternatively just give all control buttons some attribute that could be then checked for
+                    var clicked_element = event.target;
+                    if(clicked_element.children.length == 0) {
+                        for(let i = 0; i < clicked_element.parentNode.children.length; i++) {
+                            clicked_element.parentNode.children[i].classList.remove("active_selection_button");
+                        }
+                        clicked_element.classList.add("active_selection_button");
+                    }
+                }
+
+                //set colors for active selection buttons
+                //for stuff where any number can be active
+                document.getElementById("message_controls").addEventListener("click", manage_active_buttons);
+                function manage_active_buttons(event) {
+                    var clicked_element = event.target;
+                    if(clicked_element.children.length == 0) {
+                        if(clicked_element.classList.contains("active_selection_button")) {
+                            clicked_element.classList.remove("active_selection_button");
+                        } else {
+                            clicked_element.classList.add("active_selection_button");
+                        }
+                    }
+                }
+            }
+        </script> 
+    </body>
+</HTML>
