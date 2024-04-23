@@ -65,7 +65,7 @@ var cnItems = {
     "Duplicate": "复制",
     "Mute": "静音",
     "Unmute": "播放",
-    "": "",
+    "Click on blocks to unfold their content": "点击区块展开它们的内容",
     "": "",
     "": "",
     "": "",
