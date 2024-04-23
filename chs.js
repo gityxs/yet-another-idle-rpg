@@ -779,7 +779,7 @@ var cnPrefix = {
     "Carrying heavy things": "搬运重物",
     "Next earnings in: ": "距离下次收益还有: ",
     "Meditation has reached level ": "冥想已经达到了等级 ",
-    "": "",
+    "Tough skin has reached level ": "坚韧的皮肤已达到等级 ",
     "": "",
     "": "",
     "": "",
