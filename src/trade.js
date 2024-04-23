@@ -30,7 +30,7 @@ function start_trade(trader_key) {
 }
 
 function cancel_trade() {
-    
+
     to_buy.items = [];
     to_buy.value = 0;
     to_sell.items = [];
@@ -38,6 +38,8 @@ function cancel_trade() {
 
     update_displayed_character_inventory();
     update_displayed_trader_inventory();
+
+    
 }
 
 function accept_trade() {
@@ -247,7 +249,7 @@ function add_to_selling_list(selected_item) {
         }
 
         //value = item_templates[selected_item.item.split(' #')[0]].getValue() * selected_item.count;
-
+        
         to_sell.value += value;
         return value;
 
