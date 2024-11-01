@@ -1159,7 +1159,7 @@ var cnPrefix = {
     "Strength increased by ": "力量增加 ",
     "Farming has reached level ": "耕作达到等级 ",
     "Haggling : level ": "讨价还价 : 等级 ",
-    "Literacy : level ": "等级 ",
+    "Literacy : level ": "读写能力 : 等级 ",
     "Looted Rat pelt": "被掠夺的老鼠毛皮",
     "Night vision has reached level ": "夜视已经达到等级 ",
     "Reduces darkness penalty (except for 'pure darkness') by ": "将黑暗惩罚（“纯粹黑暗”除外）减少 ",
