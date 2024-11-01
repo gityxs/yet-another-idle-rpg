@@ -1528,7 +1528,7 @@ var cnRegReplace = new Map([
     [/^(.+) finished plowing the fields$/, '$1 完成了耕作'],
     [/^(.+) has lost consciousness$/, '$1 失去了知觉'],
     [/^Obtained (.+) for clearing (.+) for the first time$/, '首次清除 $1 获得 $2 经验值'],
-    [/^Obtained additional (.+) for clearing (.+)$/, '清理 $1 获得额外 $2 经验值'],
+    [/^Obtained additional (.+) for clearing (.+)$/, '清理 $2 获得额外 $1 经验值'],
     [/^Reduces low stamina penalty by (.+) percentage points$/, '减少低耐力惩罚 $1 个百分点'],
 	[/^([\d\.]+)\/([\d\.]+) xp$/, '$1\/$2 经验值'],
 	[/^([\d\.]+)\/([\d\.]+) hp$/, '$1\/$2 生命值'],
