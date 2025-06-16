@@ -111,7 +111,6 @@ var cnItems = {
     "": "",
     "": "",
     "": "",
-    "": "",
     "Scientific": "科学计数法",
     "Standard": "标准",
     "Blind": "盲文",
